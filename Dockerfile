@@ -44,10 +44,6 @@ COPY . .
 
 ENV NODE_ENV=production
 
-# NEXT_PUBLIC_* is inlined into the client bundle at build time.
-ARG NEXT_PUBLIC_ONLYOFFICE_URL
-ENV NEXT_PUBLIC_ONLYOFFICE_URL=$NEXT_PUBLIC_ONLYOFFICE_URL
-
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
