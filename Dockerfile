@@ -5,7 +5,18 @@
 # IMPORTANT: Docker Hardened Image (DHI) Version Maintenance
 # This Dockerfile uses dhi.io/node. Regularly validate and update to the latest DHI versions in the catalog for security and compatibility.
 
-FROM dhi.io/node:26-alpine-dev AS dependencies
+# DHI Node.js on Alpine, pinned by digest.
+# "-dev" variant = includes shell + package managers + build tools
+#   (needed for npm/corepack, "npm run build" and RUN in the runner stage).
+#   The non-dev variant is a minimal runtime with no shell.
+# Digest (@sha256) = immutable pin of the exact image; tags like "26-alpine-dev"
+#   move on every patch. Update manually with:
+#   docker buildx imagetools inspect dhi.io/node:26-alpine-dev
+#   (use the top-level "Digest:" line)
+ARG NODE_IMAGE=dhi.io/node:26-alpine-dev@sha256:21db1eece24d4b82dedebfd988e9fd862d891b86d7d6d443969d2f32af576f2d
+
+
+FROM ${NODE_IMAGE} AS dependencies
 
 # Set working directory
 WORKDIR /app
@@ -31,7 +42,7 @@ RUN --mount=type=cache,target=/root/.npm \
 # Stage 2: Build Next.js application in standalone mode
 # ============================================
 
-FROM dhi.io/node:26-alpine-dev AS builder
+FROM ${NODE_IMAGE} AS builder
 
 # Set working directory
 WORKDIR /app
@@ -69,7 +80,7 @@ RUN if [ -f package-lock.json ]; then \
 # Stage 3: Run Next.js application
 # ============================================
 
-FROM dhi.io/node:26-alpine-dev AS runner
+FROM ${NODE_IMAGE} AS runner
 
 # Set working directory
 WORKDIR /app
