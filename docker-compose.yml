@@ -2,7 +2,7 @@ services:
   fe:
     image: ${IMAGE_NAME}
     ports:
-      - "127.0.0.1:${FE_PORT:-3000}:3000"
+      - "${BIND_ADDRESS:-127.0.0.1}:${HOST_PORT}:${APP_PORT:-3000}"
     build:
       context: .
       dockerfile: Dockerfile

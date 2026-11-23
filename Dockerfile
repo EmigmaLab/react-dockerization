@@ -76,7 +76,7 @@ WORKDIR /app
 
 # Set production environment variables
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT="${APP_PORT:-3000}"
 ENV HOSTNAME="0.0.0.0"
 
 # Next.js collects completely anonymous telemetry data about general usage.
@@ -104,7 +104,7 @@ COPY --from=builder --chown=node:node /app/.next/static ./.next/static
 USER node
 
 # Expose port 3000 to allow HTTP traffic
-EXPOSE 3000
+EXPOSE "${APP_PORT:-3000}"
 
 # Start Next.js standalone server
 CMD ["node", "server.js"]
