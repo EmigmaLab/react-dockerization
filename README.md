@@ -27,7 +27,7 @@ Files:
 - `example.env` — template with every supported parameter (committed).
 - `.env` — the **only** file you edit per project.
 
-Prereqs per app: Next.js with `output: "standalone"`, a lockfile (`package-lock.json` / `yarn.lock` / `pnpm-lock.yaml`), Node major matching the branch (e.g. `node-26`).
+Prereqs per app: Next.js with `output: "standalone"`, a lockfile (`package-lock.json` / `yarn.lock` / `pnpm-lock.yaml`).
 
 ## Node versions
 
@@ -39,10 +39,10 @@ Branch naming: `node-<ver>` (e.g. `node-26`). Use the branch that matches the No
 
 ## Configuration (`.env`)
 
-1. Copy the template:
+1. Copy the template env in your React project:
 
    ```sh
-   cp example.env .env
+   cp example.env .../.../.env
    ```
 
 2. Set values. App-specific secrets/URLs go in the same file — request real values from a [maintainer](#maintainers).
@@ -53,7 +53,7 @@ How `.env` is used:
 - **Container environment** — `env_file: .env` injects the whole file into the container
 
 
-## Usage
+## Usage - Locally
 
 ```sh
 docker compose up -d --build
@@ -90,5 +90,6 @@ Any other key is passed through to the container unchanged, e.g.:
 | `KEYCLOAK_REALM - OPTIONAL ` | Realm name |
 | `KEYCLOAK_CLIENT_ID - OPTIONAL` | Client id |
 | `KEYCLOAK_CLIENT_SECRET - OPTIONAL` | Client secret |
+| `Others...` | / |
 
 Names depend on the app — keep them in `.env` only, never in `docker-compose.yml`.
